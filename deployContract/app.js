@@ -40,15 +40,17 @@ app.post("/", async (req, res) => {
 
     // Pass the Solidity code for compilation and deployment
     await compilefile(fileNameWithoutExtension);
-    await deployfile();
-
+    const deployedContract = await deployfile(); // Deploy the contract and get its address
+    console.log("app.js: ", deployedContract);
     // Remove the Solidity file after compilation and deployment
     fs.unlink(solidityFileName, (err) => {
       if (err) {
         console.error(err);
       }
     });
-    res.status(200).json({ message: "Contract deployed successfully!" });
+    res
+      .status(200)
+      .json({ message: "Contract deployed successfully!", deployedContract: deployedContract});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to deploy the contract" });

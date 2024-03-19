@@ -7,7 +7,6 @@ dotenv.config();
 import fs from "fs";
 
 async function deployfile() {
-
   const { abi, bytecode } = JSON.parse(fs.readFileSync("Demo.json"));
 
   // Configuring the connection to an Ethereum node
@@ -38,10 +37,8 @@ async function deployfile() {
     });
   // The contract is now deployed on chain!
   console.log(`Contract deployed at ${deployedContract.options.address}`);
-  console.log(
-    `Add DEMO_CONTRACT to the.env file to store the contract address: ${deployedContract.options.address}`
-  );
+  return deployedContract.options.address; // Return the deployed contract
 }
 
 // deployfile();
-export default deployfile;  
+export default deployfile;

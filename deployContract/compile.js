@@ -4,9 +4,9 @@ import solc from "solc";
 async function compilefile(contractName) {
   // Load the contract source code
   const sourceCode = await fs.readFile(`${contractName}.sol`, "utf8"); // Compile the source code and retrieve the ABI and Bytecode
-  console.log(contractName);
+  console.log("contractName:", contractName);
   const fileNameWithoutExtension = contractName.split(".")[0];
-  console.log(fileNameWithoutExtension);
+  console.log("fileNameWithoutExtension: ", fileNameWithoutExtension);
   const { abi, bytecode } = compile(sourceCode, contractName); // Store the ABI and Bytecode into a JSON file
   const artifact = JSON.stringify({ abi, bytecode }, null, 2);
   await fs.writeFile("Demo.json", artifact);

@@ -133,40 +133,34 @@ const SolidityCodeEditor: React.FC = () => {
     };
   }, []);
 
-  const handleCompile = () => {
+  const handleCompile = async () => {
     if (solidityCode) {
       setLoading(true); // Set loading state to true when compilation starts
-      fetch("http://localhost:5000/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code: solidityCode }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("API response:", data);
-          // Handle API response here
-          setDeploy(true);
-          setLoading(false); // Set loading state to false when deployment is successful
-          toast.success("Deployment successful."); // Show success toast
-          // Reset deploy state after showing the toast
-          setTimeout(() => {
-            setDeploy(false);
-          }, 3000); // Reset deploy state after 5 seconds
-        })
-        .catch((error) => {
-          console.error(
-            "There was a problem with your fetch operation:",
-            error
-          );
-          setLoading(false); // Set loading state to false in case of error
+      try {
+        const response = await fetch("http://localhost:5000/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ code: solidityCode }),
         });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        console.log("API response:", data);
+        // Handle API response here
+        setDeploy(true);
+        setLoading(false); // Set loading state to false when deployment is successful
+        toast.success(`Deployment successful at ${data.deployedContract}`); // Show success toast
+        // Reset deploy state after showing the toast
+        setTimeout(() => {
+          setDeploy(false);
+        }, 3000); // Reset deploy state after 5 seconds
+      } catch (error) {
+        console.error("There was a problem with your fetch operation:", error);
+        setLoading(false); // Set loading state to false in case of error
+      }
     } else {
       console.error("Solidity code is empty");
     }
@@ -191,7 +185,6 @@ const SolidityCodeEditor: React.FC = () => {
         {loading ? "Compiling..." : "Compile"}
       </button>
       {loading && <div className="fixed top-4 right-6">Compiling...</div>}{" "}
-      {/* Show loading message */}
     </>
   );
 };
