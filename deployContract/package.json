@@ -20,5 +20,8 @@
     "solc": "^0.8.25",
     "web3": "^4.6.0"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "hardhat": "^2.24.2"
+  }
 }
