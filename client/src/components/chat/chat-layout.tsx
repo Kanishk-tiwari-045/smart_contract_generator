@@ -2,12 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { cn } from "@/lib/utils";
-
 import Chat, { ChatProps } from "./chat";
 
 interface ChatLayoutProps {
@@ -21,8 +18,6 @@ type MergedProps = ChatLayoutProps & ChatProps;
 
 export function ChatLayout({
   defaultLayout = [30, 160],
-  defaultCollapsed = false,
-  navCollapsedSize,
   messages,
   input,
   handleInputChange,
